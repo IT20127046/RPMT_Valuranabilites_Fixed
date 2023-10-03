@@ -188,8 +188,8 @@ app.listen(port, () => {
 
 // Obtain an SSL/TLS certificate for your domain and store the private key and certificate files in a secure location
 const options = {
-  key: fs.readFileSync("path/to/private-key.pem"), // Read the private key file
-  cert: fs.readFileSync("path/to/certificate.pem"), // Read the certificate file
+  key: fs.readFileSync("private-key.pem"), // Read the private key file
+  cert: fs.readFileSync("certificate.pem"), // Read the certificate file
 };
 
 // Create a secure HTTPS server using the Express app and SSL/TLS certificates
