@@ -3,6 +3,7 @@ const nodemailer = require("nodemailer");
 const User = require("../models/users");
 const DOMPurify = require("dompurify");
 const notify = express.Router();
+const he = require("he");
 
 //send email to group students
 notify.post("/submitiont/email", (req, res) => {
@@ -62,12 +63,7 @@ notify.post("/submitiont/email", (req, res) => {
     //     };
 
     const escapeHtml = (unsafe) => {
-      return unsafe
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/&/g, "&amp;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+      return he.encode(unsafe);
     };
 
     var mailOptions = {
