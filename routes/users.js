@@ -9,7 +9,8 @@ const htmlspecialchars = require("htmlspecialchars");
 // const entities = new Entities();
 const router = express.Router();
 
-process.env.SECRET_KEY = "secret2022";
+const secret = process.env.JWT_SECRET_KEY || '';
+const salt = process.env.SALT;
 
 //user registration with password encryption - user
 router.post("/user/registration", (req, res) => {
@@ -32,7 +33,7 @@ router.post("/user/registration", (req, res) => {
   })
     .then((user) => {
       if (!user) {
-        bcrypt.hash(req.body.password, 10, (err, hash) => {
+        bcrypt.hash(req.body.password, salt, (err, hash) => {
           userData.password = hash;
           // console.log("bcrypt")
           Users.create(userData)
@@ -96,7 +97,7 @@ router.post("/user/registration", (req, res) => {
 //             type: user.type,
 //             dateRegistered: user.dateRegistered
 //           }
-//           const userToken = jwt.sign(payload, process.env.SECRET_KEY, {
+//           const userToken = jwt.sign(payload, secret, {
 //             expiresIn: 1440
 //           })
 //           res.send(userToken)
@@ -205,7 +206,7 @@ router.put("/user/updateprofile/:id", (req, res) => {
     .then((user) => {
       if (user) {
         if (bcrypt.compareSync(req.body.enteredPassword, user.password)) {
-          bcrypt.hash(req.body.newPassword, 10, (err, hash) => {
+          bcrypt.hash(req.body.newPassword, salt, (err, hash) => {
             const newData = {
               idNumber: req.body.idNumber,
               name: req.body.name,

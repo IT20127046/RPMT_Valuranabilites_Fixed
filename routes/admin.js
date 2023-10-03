@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");         // for password hashing
 const jwt = require("jsonwebtoken");        // for creating user tokens
 
 const router = express.Router();
+const jwt_secret = process.env.JWT_SECRET_KEY || '';
 
 // admin login
 router.post("/admin", async (req, res) => {
@@ -32,7 +33,7 @@ router.post("/admin", async (req, res) => {
       {
         username: admin.username,
       },
-      "secret2022"
+      jwt_secret
     );
 
     return res.json({ status: "ok", admin: token });
