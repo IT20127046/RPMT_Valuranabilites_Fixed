@@ -122,10 +122,14 @@ const http = require("http");
 const { Server } = require("socket.io");
 const csrf = require("csurf"); // Include the csurf middleware
 const cookieParser = require("cookie-parser"); // Include the cookie-parser middleware
+const helmet = require("helmet"); // Import the helmet middleware
 
 require("dotenv").config();
 
 const app = express();
+// Apply helmet middleware to disable X-Powered-By header
+app.use(helmet());
+
 
 // Middleware
 app.use(bodyparser.json());
