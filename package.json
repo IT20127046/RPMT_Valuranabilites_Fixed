@@ -23,6 +23,8 @@
     "dompurify": "^3.0.6",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
+    "express-rate-limit": "^7.0.2",
+    "he": "^1.2.0",
     "helmet": "^7.0.0",
     "html-entities": "^2.4.0",
     "htmlspecialchars": "^1.0.5",
