@@ -92,6 +92,7 @@ import AddNotice from "./components/IT20127046/admin/AddNotice";
 import UserAuth from "./components/IT20128036/user/UserAuth";
 
 
+require('dotenv').config();
 
 export default class App extends Component {
 
