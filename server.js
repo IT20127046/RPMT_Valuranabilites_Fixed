@@ -97,23 +97,6 @@
 //   });
 // });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyparser = require("body-parser");
@@ -131,8 +114,8 @@ const app = express();
 app.use(helmet());
 
 // Import required modules
-const https = require('https'); // Import the HTTPS module for creating a secure server
-const fs = require('fs'); // Import the File System module for reading SSL/TLS certificates
+const https = require("https"); // Import the HTTPS module for creating a secure server
+const fs = require("fs"); // Import the File System module for reading SSL/TLS certificates
 
 // Middleware
 app.use(bodyparser.json());
@@ -155,25 +138,23 @@ app.use((req, res, next) => {
 
 // Routes
 
-
 const sgrouter = require("./routes/studentGroupRoute");
 const sdrouter = require("./routes/supervisorDetailsRoute");
 const rerouter = require("./routes/requestRoute");
-const adminRouter = require('./routes/admin');
-const userRouter = require('./routes/users');
-const topicRoutes = require('./routes/topic');
+const adminRouter = require("./routes/admin");
+const userRouter = require("./routes/users");
+const topicRoutes = require("./routes/topic");
 const evrouter = require("./routes/evaluation");
-const subTypeRoute = require('./routes/submitionType');
-const marks = require('./routes/marks');
-const submitions = require('./routes/submition');
-const subnotify = require('./routes/submitionNotification');
-const adminDcoumentTempRoutes = require('./routes/adminDocumentTemp');
-const chatGroupRoutes = require('./routes/chatMsg');
-const markingSchemRoutes = require('./routes/markingSchem');
-const downloadFileRoutes = require('./routes/downloadFile');
-const supportMsgRoutes = require('./routes/supportMsg');
-const noticeRoutes = require('./routes/notice');
-
+const subTypeRoute = require("./routes/submitionType");
+const marks = require("./routes/marks");
+const submitions = require("./routes/submition");
+const subnotify = require("./routes/submitionNotification");
+const adminDcoumentTempRoutes = require("./routes/adminDocumentTemp");
+const chatGroupRoutes = require("./routes/chatMsg");
+const markingSchemRoutes = require("./routes/markingSchem");
+const downloadFileRoutes = require("./routes/downloadFile");
+const supportMsgRoutes = require("./routes/supportMsg");
+const noticeRoutes = require("./routes/notice");
 
 app.use(sgrouter);
 app.use(sdrouter);
@@ -193,8 +174,6 @@ app.use(downloadFileRoutes);
 app.use(supportMsgRoutes);
 app.use(noticeRoutes);
 
-
-
 const port = process.env.PORT || 5000;
 const uri = process.env.MONGO_URI;
 
@@ -209,8 +188,8 @@ app.listen(port, () => {
 
 // Obtain an SSL/TLS certificate for your domain and store the private key and certificate files in a secure location
 const options = {
-  key: fs.readFileSync('path/to/private-key.pem'), // Read the private key file
-  cert: fs.readFileSync('path/to/certificate.pem') // Read the certificate file
+  key: fs.readFileSync("path/to/private-key.pem"), // Read the private key file
+  cert: fs.readFileSync("path/to/certificate.pem"), // Read the certificate file
 };
 
 // Create a secure HTTPS server using the Express app and SSL/TLS certificates
@@ -219,7 +198,6 @@ const server = https.createServer(options, app);
 server.listen(3001, () => {
   console.log("Secure server is running on port 3001"); // Log a message when the secure server is running
 });
-
 
 const io = new Server(server, {
   cors: {

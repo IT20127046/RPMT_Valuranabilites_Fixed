@@ -8,7 +8,7 @@ import {
   import { auth, provider } from "../../../firebase";
   import "./index.css";
   
-  function Index() {
+  function UserAuth() {
     const history = useHistory();
     const [register, setRegister] = useState(false);
     const [email, setEmail] = useState("");
@@ -119,5 +119,5 @@ import {
     );
   }
   
-  export default Index;
+  export default UserAuth;
   

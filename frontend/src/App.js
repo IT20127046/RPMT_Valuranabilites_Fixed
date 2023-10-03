@@ -89,7 +89,7 @@ import AddNotice from "./components/IT20127046/admin/AddNotice";
 
 
 
-import Index from "./components/IT20128036/user/UserAuth";
+import UserAuth from "./components/IT20128036/user/UserAuth";
 
 
 
@@ -150,7 +150,7 @@ export default class App extends Component {
                 {/* ---------------User--------------- */}
                 {/* IT20125202 */}
                 <Route path="/" exact component={LandingPage}></Route>
-                <Route path="/user/login" exact component={Index}></Route>
+                <Route path="/user/login" exact component={UserAuth}></Route>
                 <Route path='/user/profile' exact component={UserProfile}></Route>
                 <Route path='/user/registration' exact component={CreateUser}></Route>
 

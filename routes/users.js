@@ -1,85 +1,80 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const Users = require('../models/users');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const { type } = require('express/lib/response');
-const htmlspecialchars = require('htmlspecialchars');
+const express = require("express");
+const mongoose = require("mongoose");
+const Users = require("../models/users");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const { type } = require("express/lib/response");
+const htmlspecialchars = require("htmlspecialchars");
 // const Entities = require('html-entities').AllHtmlEntities;
 // const entities = new Entities();
 const router = express.Router();
 
-
-
 process.env.SECRET_KEY = "secret2022";
 
 //user registration with password encryption - user
-router.post('/user/registration', (req, res) => {
+router.post("/user/registration", (req, res) => {
   const current = new Date();
   let userData = {
     idNumber: req.body.idNumber,
     name: req.body.name,
     email: req.body.email,
     mobile: req.body.mobile,
-    groupId: '',
-    researchfield: '',
-    panel: '',
+    groupId: "",
+    researchfield: "",
+    panel: "",
     type: req.body.type,
     password: req.body.password,
-    dateRegistered: current
-  }
+    dateRegistered: current,
+  };
 
   Users.findOne({
-    idNumber: req.body.idNumber
+    idNumber: req.body.idNumber,
   })
-    .then(user => {
+    .then((user) => {
       if (!user) {
         bcrypt.hash(req.body.password, 10, (err, hash) => {
-          userData.password = hash
+          userData.password = hash;
           // console.log("bcrypt")
           Users.create(userData)
-            .then(res => {
+            .then((res) => {
               // console.log("then")
 
-              res.status(200).json({
-                success: "Registered successfully"
-              }).end()
-
+              res
+                .status(200)
+                .json({
+                  success: "Registered successfully",
+                })
+                .end();
             })
-            .catch(err => {
+            .catch((err) => {
               // console.log("catch")
               // res.status(400).send("error" + err).end();
               res.status(400).json({
-                errorMessage: 'Something went wrong!',
-                status: false
+                errorMessage: "Something went wrong!",
+                status: false,
               });
               // console.log("error: " + err);
             });
-        })
-
-      }
-      else {
+        });
+      } else {
         // res.status(400).json({
         //     error: "Your ID number is already registered"
         // }).end()
         return res.status(401).json({
           errorMessage: "Your ID number is already registered",
-          status: false
+          status: false,
         });
       }
     })
-    .catch(err => {
+    .catch((err) => {
       // res.send("error" + err)
       res.status(400).json({
-        errorMessage: 'Something went wrong!',
-        status: false
+        errorMessage: "Something went wrong!",
+        status: false,
       });
-      console.log("error: " + err)
-    })
-})
-
-
-
+      console.log("error: " + err);
+    });
+});
 
 //user login with jsonwebtoken - user
 // router.post("/user/login", (req, res) => {
@@ -132,14 +127,6 @@ router.post('/user/registration', (req, res) => {
 //     })
 // });
 
-
-
-
-
-
-
-
-
 //get a specific user
 router.get("/user/:id", (req, res) => {
   let userId = req.params.id;
@@ -175,19 +162,19 @@ router.get("/users", (req, res) => {
 });
 
 //get users by type - admin
-router.get('/users/:type', (req, res) => {
+router.get("/users/:type", (req, res) => {
   let usertype = req.params.type;
   Users.find({ type: usertype }).exec((err, users) => {
     if (err) {
       return res.status(400).json({
-        error: err
-      })
+        error: err,
+      });
     }
     return res.status(200).json({
       success: true,
-      existingUsers: users
-    })
-  })
+      existingUsers: users,
+    });
+  });
 });
 
 //update user - admin
@@ -215,10 +202,9 @@ router.put("/user/updateprofile/:id", (req, res) => {
   Users.findOne({
     idNumber: req.body.idNumber,
   })
-    .then(user => {
+    .then((user) => {
       if (user) {
         if (bcrypt.compareSync(req.body.enteredPassword, user.password)) {
-
           bcrypt.hash(req.body.newPassword, 10, (err, hash) => {
             const newData = {
               idNumber: req.body.idNumber,
@@ -230,8 +216,8 @@ router.put("/user/updateprofile/:id", (req, res) => {
               panel: req.body.panel,
               type: req.body.type,
               dateRegistered: req.body.dateRegistered,
-              password: hash
-            }
+              password: hash,
+            };
 
             Users.findByIdAndUpdate(
               req.params.id,
@@ -249,29 +235,27 @@ router.put("/user/updateprofile/:id", (req, res) => {
                 });
               }
             );
-          })
+          });
         } else {
           return res.status(401).json({
-            errorMessage: 'Password not matched!',
-            status: false
+            errorMessage: "Password not matched!",
+            status: false,
           });
         }
-      }
-      else {
+      } else {
         return res.status(401).json({
           errorMessage: "Cannot find the user",
-          status: false
+          status: false,
         });
       }
-    
     })
-  .catch(err => {
-    res.status(400).json({
-      errorMessage: 'Something went wrong!',
-      status: false
+    .catch((err) => {
+      res.status(400).json({
+        errorMessage: "Something went wrong!",
+        status: false,
+      });
+      console.log("error: " + err);
     });
-    console.log("error: " + err);
-  })
 });
 
 //delete user
