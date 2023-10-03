@@ -1,8 +1,17 @@
 const express = require("express");
 const router = express.Router();
 const path = require("path");
+const rateLimit = require('express-rate-limit');
 
-router.post('/file/download', (req, res) => {
+require("dotenv").config();
+
+// Create a rate limiter with a maximum of 100 requests per minute
+const limiter = rateLimit({
+    windowMs: 60 * 1000, // 1 minute
+    max: Number(process.env.DOWNLOAD_LIMIT), // 10 requests per minute
+});
+
+router.post('/file/download', limiter, (req, res) => {
     const filename = req.body.fileName;
 
     // Ensure the filename is safe by allowing only specific characters and restricting directory traversal
