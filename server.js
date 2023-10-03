@@ -130,6 +130,9 @@ const app = express();
 // Apply helmet middleware to disable X-Powered-By header
 app.use(helmet());
 
+// Import required modules
+const https = require('https'); // Import the HTTPS module for creating a secure server
+const fs = require('fs'); // Import the File System module for reading SSL/TLS certificates
 
 // Middleware
 app.use(bodyparser.json());
@@ -204,12 +207,19 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-// Socket.io - Server configurations and functionalities
-const server = http.createServer(app);
+// Obtain an SSL/TLS certificate for your domain and store the private key and certificate files in a secure location
+const options = {
+  key: fs.readFileSync('path/to/private-key.pem'), // Read the private key file
+  cert: fs.readFileSync('path/to/certificate.pem') // Read the certificate file
+};
+
+// Create a secure HTTPS server using the Express app and SSL/TLS certificates
+const server = https.createServer(options, app);
 
 server.listen(3001, () => {
-  console.log("CHAT SERVER RUNNING");
+  console.log("Secure server is running on port 3001"); // Log a message when the secure server is running
 });
+
 
 const io = new Server(server, {
   cors: {
