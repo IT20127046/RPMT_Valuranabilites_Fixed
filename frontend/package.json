@@ -25,7 +25,7 @@
     "react-confirm-alert": "^2.8.0",
     "react-dom": "^18.1.0",
     "react-minimal-pie-chart": "^8.3.0",
-    "react-router-dom": "^5.2.0",
+    "react-router-dom": "^6.0.0",
     "react-scroll-to-bottom": "^4.2.0",
     "react-to-print": "^2.14.7",
     "socket.io-client": "^4.5.0",
